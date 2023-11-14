@@ -1,9 +1,9 @@
 {
-  "name": "goit-react-hw-02-feedback",
+  "name": "goit-react-hw-02-phonebook",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://rafallakomiec.github.io/goit-react-hw-02-feedback/",
+  "homepage": "https://rafallakomiec.github.io/goit-react-hw-02-phonebook/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
@@ -15,6 +15,7 @@
   "dependencies": {
     "clsx": "^1.2.1",
     "gh-pages": "^6.0.0",
+    "nanoid": "^5.0.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

@@ -4,3 +4,11 @@ body {
   margin: 0;
   background-color: white;
 }
+
+button {
+  display: block;
+}
+
+form {
+  border: 3px;
+}
