@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://rafallakomiec.github.io/goit-react-hw-02-phonebook/",
+  "author": "Rafał Łakomiec <rafal.lakomiec@gmail.com>",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
