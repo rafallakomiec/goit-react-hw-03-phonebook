@@ -4,21 +4,18 @@ import ContactForm from './components/ContactForm/ContactForm';
 import Filter from './components/Filter/Filter';
 import ContactList from './components/ContactList/ContactList';
 import ContactItem from './components/ContactItem/ContactItem';
+import localStorageHandlers from './utils/localStorageHandlers';
 class App extends Component {
+  #LOCAL_STORAGE_KEY = "contacts";
+
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
+    changeOccurred: false
   };
 
   handleChange = event => {
-    this.setState(() => {
-      return { [event.target.name]: event.target.value };
-    });
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmit = event => {
@@ -29,8 +26,7 @@ class App extends Component {
       return;
     }
 
-    this.setState(() => {
-      return {
+    this.setState({
         contacts: [
           ...this.state.contacts,
           {
@@ -39,21 +35,21 @@ class App extends Component {
             id: nanoid(),
           },
         ],
-      };
-    });
+        changeOccurred: true
+      });
   };
 
   handleDelete = event => {
-    this.setState(() => {
-      const newContacts = [...this.state.contacts];
-      newContacts.splice(
-        this.state.contacts.findIndex(contact => contact.id === event.target.id),
-        1
-      );
-      return {
-        contacts: newContacts
-      };
-    });
+    const newContacts = [...this.state.contacts];
+    newContacts.splice(
+      this.state.contacts.findIndex(contact => contact.id === event.target.id),
+      1
+    );
+    
+    this.setState({
+        contacts: newContacts,
+        changeOccurred: true
+      });
   };
 
   render() {
@@ -92,6 +88,24 @@ class App extends Component {
         <ContactList>{list}</ContactList>
       </>
     );
+  }
+
+  componentDidMount() {
+    const storageState = localStorageHandlers.load(this.#LOCAL_STORAGE_KEY);
+    this.setState({ contacts: storageState === undefined ? [] : storageState});
+  }
+  
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(1);
+    if (prevState.changeOccurred) {
+      console.log(2);
+      const isSucceed = localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, prevState.contacts);
+      if (isSucceed) {
+        console.log(3);
+        this.setState({changeOccurred: false});
+      }
+    }
   }
 }
 
