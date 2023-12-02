@@ -10,8 +10,7 @@ class App extends Component {
 
   state = {
     contacts: [],
-    filter: '',
-    changeOccurred: false
+    filter: ''
   };
 
   handleChange = event => {
@@ -34,8 +33,7 @@ class App extends Component {
             number: event.target.number.value,
             id: nanoid(),
           },
-        ],
-        changeOccurred: true
+        ]
       });
   };
 
@@ -47,8 +45,7 @@ class App extends Component {
     );
     
     this.setState({
-        contacts: newContacts,
-        changeOccurred: true
+        contacts: newContacts
       });
   };
 
@@ -96,16 +93,8 @@ class App extends Component {
   }
   
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(1);
-    if (prevState.changeOccurred) {
-      console.log(2);
-      const isSucceed = localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, prevState.contacts);
-      if (isSucceed) {
-        console.log(3);
-        this.setState({changeOccurred: false});
-      }
-    }
+  componentDidUpdate() {
+    localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
   }
 }
 
