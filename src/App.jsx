@@ -10,7 +10,7 @@ class App extends Component {
 
   state = {
     contacts: [],
-    filter: ''
+    filterInput: ''
   };
 
   handleChange = event => {
@@ -50,12 +50,12 @@ class App extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
+    const { contacts, filterInput } = this.state;
     const list =
-      filter.length > 0
+      filterInput.length > 0
         ? contacts
             .filter(contact =>
-              contact.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+              contact.name.toLocaleLowerCase().includes(filterInput.toLocaleLowerCase())
             )
             .map(contact => (
               <ContactItem
@@ -81,7 +81,7 @@ class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm submitHandler={this.handleSubmit} />
         <h2>Contacts</h2>
-        <Filter changeHandler={this.handleChange} filterVal={filter} />
+        <Filter changeHandler={this.handleChange} filterVal={filterInput} />
         <ContactList>{list}</ContactList>
       </>
     );
