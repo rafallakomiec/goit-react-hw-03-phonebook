@@ -12,7 +12,7 @@ class Filter extends Component {
     return (
       <label>
         Find contacts by name:
-        <input type="text" name="filter" onChange={changeHandler} value={filterVal} />
+        <input type="text" name="filterInput" onChange={changeHandler} value={filterVal} />
       </label>
     );
   }
