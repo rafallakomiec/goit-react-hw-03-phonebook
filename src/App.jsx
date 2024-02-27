@@ -43,9 +43,6 @@ class App extends Component {
         ],
         name: '',
         number: ''
-      },
-      () => {
-        localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
       });
   };
 
@@ -58,9 +55,7 @@ class App extends Component {
     
     this.setState({
         contacts: newContacts
-    }, () => {
-      localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
-    });
+    })
   };
 
   render() {
@@ -104,6 +99,12 @@ class App extends Component {
   componentDidMount() {
     const storageState = localStorageHandlers.load(this.#LOCAL_STORAGE_KEY);
     this.setState({ contacts: storageState === undefined ? [] : storageState});
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+        localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
+    }
   }
 }
 
