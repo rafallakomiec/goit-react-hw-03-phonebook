@@ -10,7 +10,9 @@ class App extends Component {
 
   state = {
     contacts: [],
-    filterInput: ''
+    filterInput: '',
+    name: '',
+    number: '',
   };
 
   handleChange = event => {
@@ -22,7 +24,10 @@ class App extends Component {
 
     if (this.state.contacts.some(contact => contact.name.toLocaleLowerCase() === event.target.name.value.toLocaleLowerCase())) {
       alert(event.target.name.value + ' is already in contacts!');
-      event.target.name.value = '';
+      this.setState({
+        name: '',
+        number: ''
+      });
       return;
     }
 
@@ -36,9 +41,10 @@ class App extends Component {
             id: nanoid(),
           },
         ],
+        name: '',
+        number: ''
       },
       () => {
-        event.target.name.value = '';
         localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
       });
   };
@@ -87,7 +93,7 @@ class App extends Component {
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm submitHandler={this.handleSubmit} />
+        <ContactForm submitHandler={this.handleSubmit} changeHandler={this.handleChange} name={this.state.name} number={this.state.number} />
         <h2>Contacts</h2>
         <Filter changeHandler={this.handleChange} filterVal={filterInput} />
         <ContactList>{list}</ContactList>
@@ -98,11 +104,6 @@ class App extends Component {
   componentDidMount() {
     const storageState = localStorageHandlers.load(this.#LOCAL_STORAGE_KEY);
     this.setState({ contacts: storageState === undefined ? [] : storageState});
-  }
-  
-
-  componentDidUpdate() {
-    localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
   }
 }
 

@@ -4,23 +4,16 @@ import PropTypes from 'prop-types';
 class ContactForm extends Component {
   static propTypes = {
     submitHandler: PropTypes.func.isRequired,
-  };
-  state = {
-    name: '',
-    number: '',
-  };
-
-  handleChange = event => {
-    this.setState(() => {
-      return { [event.target.name]: event.target.value };
-    });
+    changeHandler: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired
   };
 
   render() {
-    const { name, number } = this.state;
+    const { name, number, submitHandler, changeHandler } = this.props;
 
     return (
-      <form onSubmit={this.props.submitHandler}>
+      <form onSubmit={submitHandler}>
         <label>
           Name:
           <input
@@ -30,7 +23,7 @@ class ContactForm extends Component {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             placeholder="Enter a name of the contact here..."
             required
-            onChange={this.handleChange}
+            onChange={changeHandler}
             value={name}
           />
         </label>
@@ -43,7 +36,7 @@ class ContactForm extends Component {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             placeholder="Enter a phone number here..."
             required
-            onChange={this.handleChange}
+            onChange={changeHandler}
             value={number}
           />
         </label>
