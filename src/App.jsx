@@ -22,10 +22,12 @@ class App extends Component {
 
     if (this.state.contacts.some(contact => contact.name.toLocaleLowerCase() === event.target.name.value.toLocaleLowerCase())) {
       alert(event.target.name.value + ' is already in contacts!');
+      event.target.name.value = '';
       return;
     }
 
-    this.setState({
+    this.setState(
+      {
         contacts: [
           ...this.state.contacts,
           {
@@ -33,7 +35,11 @@ class App extends Component {
             number: event.target.number.value,
             id: nanoid(),
           },
-        ]
+        ],
+      },
+      () => {
+        event.target.name.value = '';
+        localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
       });
   };
 
@@ -46,7 +52,9 @@ class App extends Component {
     
     this.setState({
         contacts: newContacts
-      });
+    }, () => {
+      localStorageHandlers.save(this.#LOCAL_STORAGE_KEY, this.state.contacts);
+    });
   };
 
   render() {
